@@ -50,8 +50,8 @@ class Sprite{
 
 
         //MOVIMENTACAO
-        this.position.x += this.velocity.x  
-        this.position.y += this.velocity.y 
+        this.position.x += this.velocity.x  //walk
+        this.position.y += this.velocity.y  //jump
 
         if(this.position.y + this.height + this.velocity.y >= canvas.height){
             this.velocity.y = 0 // parar de cair
