@@ -25,6 +25,7 @@ class Sprite{
         }
         this.color = color
         this.isAttacking
+        this.health = 100
     }
     
     draw(){
@@ -136,7 +137,36 @@ function rectangularCollision(
         rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
     )
 }
-
+function determineWinner({player, enemy, timerId}){
+    clearTimeout(timerId);
+    document.querySelector('#displayText').style.display = 'flex';
+    if(player.health === enemy.health){
+        document.querySelector('#displayText').innerHTML = 'Tie';
+    }
+    else if(player.health > enemy.health){
+        document.querySelector('#displayText').innerHTML = 'Player 1 Win';
+    }
+    else if(player.health < enemy.health){
+        document.querySelector('#displayText').innerHTML = 'Player 2 Win';
+    }
+}
+let timer = 60;
+let timerId;
+function decreaseTimer(){    
+    // timer
+    if(timer > 0)
+    {
+        timerId = setTimeout(decreaseTimer, 1000)
+        timer--;
+        document.querySelector('#timer').innerHTML = timer;
+    }
+    //win condition
+    if(timer === 0){
+        determineWinner({player, enemy});
+    }
+    
+}
+decreaseTimer()
 function animate(){
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
@@ -167,7 +197,8 @@ function animate(){
     }) &&
         player.isAttacking){
             player.isAttacking = false
-            console.log('go')
+            enemy.health -= 20
+            document.querySelector("#enemyHealth").style.width = enemy.health  + "%"
         }
     if(rectangularCollision({
         rectangle1: enemy,
@@ -175,10 +206,17 @@ function animate(){
     }) &&
         enemy.isAttacking){
             enemy.isAttacking = false
-            console.log('enemy attack successful')
+            player.health -= 20
+            document.querySelector("#playerHealth").style.width = player.health  + "%"
         }
+    // fim baseado na vida
+    if (enemy.health <= 0 || player.health <= 0){
+        determineWinner({player, enemy, timerId});
+    }
 }
-animate()
+animate();
+
+
 window.addEventListener('keydown', (event) => {
     switch(event.key){
         //PLAYER
