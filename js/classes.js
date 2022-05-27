@@ -1,17 +1,39 @@
 class Sprite{
-    constructor({position, imageSrc}){
+    constructor({position, imageSrc, scale = 1, framesMax = 1}){
         this.position = position
         this.height = 150
         this.width = 50
         this.image = new Image()
         this.image.src = imageSrc
+        this.scale = scale
+        this.framesMax = framesMax
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = 5
     }
     
     draw(){
-        c.drawImage(this.image, this. position.x, this.position.y)
+        c.drawImage(
+            this.image, 
+            this.framesCurrent * (this.image.width / this.framesMax), //origem dos frames
+            0, //origem dos frames
+            this.image.width / this.framesMax, //até onde vai os frames
+            this.image.height, //até onde vai os frames
+            this. position.x, //posisicao da img horizontal
+            this.position.y, //posisicao da img vertical
+            (this.image.width / this.framesMax) * this.scale, // dimensão da img vertical
+            this.image.height * this.scale) // dimensão da img horizontal
     }
     update(){
         this.draw()
+        this.framesElapsed++
+        if(this.framesElapsed % this.framesHold === 0){
+            if(this.framesCurrent < this.framesMax - 1){ // -1 para não deslocar a img de fundo
+                this.framesCurrent++
+            }else{
+                this.framesCurrent = 0
+            }
+        }
     }
 }
 class Fighter{
