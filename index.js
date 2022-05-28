@@ -26,23 +26,26 @@ const shop = new Sprite({
 const player = new Fighter(
     {
         position: {
-            x: 150,
-            y: 150
+            x: 0,
+            y: 0
         },
         velocity:{
             x: 0,
             y: 0
         },
+        imageSrc: './assets/sprites/samuraiMack/Idle.png',
+        framesMax: 8,
+        scale: 2.5,
         offset:{
-            x: 0,
-            y: 0
+            x: 215,
+            y: 157
         }
     }
 )
 const enemy = new Fighter(
     {
         position: {
-            x: 400,
+            x: 600,
             y: 100
         },
         velocity:{
@@ -50,9 +53,12 @@ const enemy = new Fighter(
             y: 0
         },
         color: 'green',
+        imageSrc: './assets/sprites/kenji/Idle.png',
+        framesMax: 4,
+        scale: 2.5,
         offset:{
-            x: -50,
-            y: 0
+            x: 90,
+            y: 170
         }
     }
 )
