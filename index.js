@@ -59,7 +59,7 @@ const player = new Fighter({
     attack1: {
       imageSrc: "./assets/sprites/samuraiMack/Attack1.png",
       framesMax: 6,
-    }
+    },
   },
 });
 const enemy = new Fighter({
@@ -78,6 +78,28 @@ const enemy = new Fighter({
   offset: {
     x: 90,
     y: 170,
+  },
+  sprites: {
+    idle: {
+      imageSrc: "./assets/sprites/kenji/Idle.png",
+      framesMax: 4,
+    },
+    run: {
+      imageSrc: "./assets/sprites/kenji/Run.png",
+      framesMax: 8,
+    },
+    jump: {
+      imageSrc: "./assets/sprites/kenji/Jump.png",
+      framesMax: 2,
+    },
+    fall: {
+      imageSrc: "./assets/sprites/kenji/Fall.png",
+      framesMax: 2,
+    },
+    attack1: {
+      imageSrc: "./assets/sprites/kenji/Attack1.png",
+      framesMax: 4,
+    },
   },
 });
 
@@ -114,7 +136,7 @@ function animate() {
   enemy.update();
 
   //ACAO DE MOVIMENTACAO
-    //player movement
+  //player movement
   player.velocity.x = 0;
   //andar
   if (keys.a.pressed && player.lastKey === "a") {
@@ -123,23 +145,36 @@ function animate() {
   } else if (keys.d.pressed && player.lastKey === "d") {
     player.velocity.x = 5;
     player.switchSprite("run");
-  }//parado
-  else{
+  } //parado
+  else {
     player.switchSprite("idle");
   }
   //pulo
   if (player.velocity.y < 0) {
     player.switchSprite("jump");
-  }//queda
+  } //queda
   else if (player.velocity.y > 0) {
     player.switchSprite("fall");
   }
+
   //enemy movement
   enemy.velocity.x = 0;
+  //andar
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -5;
+    enemy.switchSprite("run");
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
+    enemy.switchSprite("run");
+  }else{//parado
+    enemy.switchSprite("idle");
+  }
+  //pulo
+  if (enemy.velocity.y < 0) {
+    enemy.switchSprite("jump");
+  } //queda
+  else if (enemy.velocity.y > 0) {
+    enemy.switchSprite("fall");
   }
 
   //detect for collision
