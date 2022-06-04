@@ -32,6 +32,7 @@ const player = new Fighter({
     x: 0,
     y: 0,
   },
+  color: "yellow",
   imageSrc: "./assets/sprites/samuraiMack/Idle.png",
   framesMax: 8,
   scale: 2.5,
@@ -60,6 +61,18 @@ const player = new Fighter({
       imageSrc: "./assets/sprites/samuraiMack/Attack1.png",
       framesMax: 6,
     },
+    takeHit: {
+      imageSrc: "./assets/sprites/samuraiMack/Take Hit - white silhouette.png",
+      framesMax: 4,
+    },
+  },
+  attackBox: {
+    offset: {
+      x: 50,
+      y: 50,
+    },
+    width: 170,
+    height: 90,
   },
 });
 const enemy = new Fighter({
@@ -76,8 +89,8 @@ const enemy = new Fighter({
   framesMax: 4,
   scale: 2.5,
   offset: {
-    x: 90,
-    y: 170,
+    x: 215,
+    y: 167,
   },
   sprites: {
     idle: {
@@ -100,6 +113,18 @@ const enemy = new Fighter({
       imageSrc: "./assets/sprites/kenji/Attack1.png",
       framesMax: 4,
     },
+    takeHit: {
+      imageSrc: "./assets/sprites/kenji/Take hit.png",
+      framesMax: 3,
+    },
+  },
+  attackBox: {
+    offset: {
+      x: -170,
+      y: 50,
+    },
+    width: 170,
+    height: 90,
   },
 });
 
@@ -166,7 +191,8 @@ function animate() {
   } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
     enemy.velocity.x = 5;
     enemy.switchSprite("run");
-  }else{//parado
+  } else {
+    //parado
     enemy.switchSprite("idle");
   }
   //pulo
@@ -177,29 +203,43 @@ function animate() {
     enemy.switchSprite("fall");
   }
 
-  //detect for collision
+  //detect for collision & enemy get hit
   if (
     rectangularCollision({
       rectangle1: player,
       rectangle2: enemy,
     }) &&
-    player.isAttacking
+    player.isAttacking &&
+    player.framesCurrent === 4
   ) {
     player.isAttacking = false;
-    enemy.health -= 20;
+    enemy.takeHit();
     document.querySelector("#enemyHealth").style.width = enemy.health + "%";
   }
+  // se player erra o ataque
+  if (player.isAttacking && player.framesCurrent === 4) {
+    player.isAttacking = false;
+  }
+
+  //detect for collision & player get hit
   if (
     rectangularCollision({
       rectangle1: enemy,
       rectangle2: player,
     }) &&
-    enemy.isAttacking
+    enemy.isAttacking &&
+    enemy.framesCurrent === 2
   ) {
     enemy.isAttacking = false;
-    player.health -= 20;
+    player.takeHit();
     document.querySelector("#playerHealth").style.width = player.health + "%";
   }
+
+  // se enemy erra o ataque
+  if (enemy.isAttacking && enemy.framesCurrent === 2) {
+    enemy.isAttacking = false;
+  }
+
   // fim baseado na vida
   if (enemy.health <= 0 || player.health <= 0) {
     determineWinner({ player, enemy, timerId });
