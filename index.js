@@ -222,7 +222,9 @@ function animate() {
   ) {
     player.isAttacking = false;
     enemy.takeHit();
-    document.querySelector("#enemyHealth").style.width = enemy.health + "%";
+    gsap.to("#enemyHealth" ,{
+      width: enemy.health + "%"
+    })
   }
   // se player erra o ataque
   if (player.isAttacking && player.framesCurrent === 4) {
@@ -240,7 +242,9 @@ function animate() {
   ) {
     enemy.isAttacking = false;
     player.takeHit();
-    document.querySelector("#playerHealth").style.width = player.health + "%";
+    gsap.to("#playerHealth" ,{
+      width: player.health + "%"
+    })
   }
 
   // se enemy erra o ataque
