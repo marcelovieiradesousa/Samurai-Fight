@@ -14,6 +14,6 @@
 <code>Back-End:</code>N/A
 
 ## Features
-- OPP
+- OOP
 - Lib: GSAP
 - Clean Code
