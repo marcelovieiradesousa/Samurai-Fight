@@ -10,7 +10,7 @@
 - Interface Level Design
 
 ## Technologies
-<code>Back-Front:</code>HTML5, CSS3 and JavaScript <br/>
+<code>Front-End:</code>HTML5, CSS3 and JavaScript <br/>
 <code>Back-End:</code>N/A
 
 ## Features
